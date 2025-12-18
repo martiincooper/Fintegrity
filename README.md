@@ -11,7 +11,7 @@
 
 ---
 
-## 2. Flujo de Usuario (User Journey)
+## 2. Flujo de Usuario
 El siguiente diagrama describe la interacción desde que la Startup conecta sus cuentas hasta que el Inversionista recibe el análisis de riesgo.
 
 ```mermaid
@@ -24,10 +24,10 @@ graph TD
     Frontend -->|2. Conexión OAuth 2.1| OpenFin{Gateway Open Finance}
     OpenFin -->|Extracción Inmutable| BankAPI["APIs Bancarias (Ley Fintech)"]
     
-    Frontend -->|3. Upload Video Pitch| VideoServ[Servidor de Medios]
+    Frontend -->|3. Upload Video Pitch & Founder Interview| VideoServ[Servidor de Medios]
     
     %% Motor de IA
-    subgraph "Motor de Inteligencia Artificial (Core)"
+    subgraph "CORE RL AGENT"
         BankAPI -->|Series Temporales| DataPrep("Anonimización & Limpieza")
         VideoServ -->|Vectores Conductuales| NLP_Vision("Modelo NLP + Vision")
         
