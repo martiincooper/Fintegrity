@@ -22,19 +22,19 @@ graph TD
 
     %% Flujo de Datos
     Frontend -->|2. Conexión OAuth 2.1| OpenFin{Gateway Open Finance}
-    OpenFin -->|Extracción Inmutable| BankAPI[APIs Bancarias (Ley Fintech)]
+    OpenFin -->|Extracción Inmutable| BankAPI["APIs Bancarias (Ley Fintech)"]
     
     Frontend -->|3. Upload Video Pitch| VideoServ[Servidor de Medios]
     
     %% Motor de IA
     subgraph "Motor de Inteligencia Artificial (Core)"
-        BankAPI -->|Series Temporales| DataPrep(Anonimización & Limpieza)
-        VideoServ -->|Vectores Conductuales| NLP_Vision(Modelo NLP + Vision)
+        BankAPI -->|Series Temporales| DataPrep("Anonimización & Limpieza")
+        VideoServ -->|Vectores Conductuales| NLP_Vision("Modelo NLP + Vision")
         
         DataPrep & NLP_Vision --> Fusion[Fusión Multimodal]
         Fusion --> RL_Agent{{Agente Deep RL}}
         
-        RL_Agent -->|10k Simulaciones Monte Carlo| RiskScore(Cálculo de Probabilidad de Quiebra)
+        RL_Agent -->|10k Simulaciones Monte Carlo| RiskScore("Cálculo de Probabilidad de Quiebra")
     end
     
     %% Salida
