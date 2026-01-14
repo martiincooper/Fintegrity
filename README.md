@@ -153,7 +153,10 @@ Automatización del reporting ("Pain Killer" para founders). Transforma inputs i
 *   **Proceso:** Un modelo de IA toma estas notas simples y redacta un informe de progreso formal y detallado.
 *   **Generador de Informes CORFO (Output):**
     *   **Informe Técnico:** Compila las bitácoras quincenales de todo el portafolio y/o por empresa (anual o de un periodo específico) y las actas de mentores en el formato oficial del fondo correspondiente.
-    *   **Informe Financiero:** Genera la rendición de gastos de todo el portafolio y/o por empresa (anual o de un periodo específico) cruzando los datos bancarios con las metas de la convocatoria.
+    *   **Repositorio de Rendición de Gastos (Nuevo Enfoque):** En lugar de un informe financiero automático, se implementa una carpeta digital mensual.
+        *   **Funcionalidad:** La emprendedora sube boletas/facturas organizadas por mes.
+        *   **Gestión:** El equipo de finanzas tiene un botón de "Descarga Masiva" (Zip mensual) con toda la documentación lista para rendir.
+        *   **Recordatorios:** El sistema notifica automáticamente si falta subir documentos al cierre de mes.
 
 ```mermaid
 graph TD
