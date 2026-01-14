@@ -152,8 +152,8 @@ Automatización del reporting ("Pain Killer" para founders). Transforma inputs i
 *   **Bitácora Quincenal (Input):** Cada 15 días, la empresa escribe 3 puntos: **Logros**, **Bloqueos** y **Próximos Pasos**.
 *   **Proceso:** Un modelo de IA toma estas notas simples y redacta un informe de progreso formal y detallado.
 *   **Generador de Informes CORFO (Output):**
-    *   **Informe Técnico:** Compila las bitácoras quincenales y las actas de mentores en el formato oficial del fondo correspondiente.
-    *   **Informe Financiero:** Genera la rendición de gastos cruzando los datos bancarios con las metas de la convocatoria.
+    *   **Informe Técnico:** Compila las bitácoras quincenales de todo el portafolio y/o por empresa (anual o de un periodo específico) y las actas de mentores en el formato oficial del fondo correspondiente.
+    *   **Informe Financiero:** Genera la rendición de gastos de todo el portafolio y/o por empresa (anual o de un periodo específico) cruzando los datos bancarios con las metas de la convocatoria.
 
 ```mermaid
 graph TD
