@@ -155,8 +155,8 @@ Automatización del reporting ("Pain Killer" para founders). Transforma inputs i
     *   **Informe Técnico:** Compila las bitácoras quincenales de todo el portafolio y/o por empresa (anual o de un periodo específico) y las actas de mentores en el formato oficial del fondo correspondiente.
     *   **Repositorio de Rendición de Gastos (Nuevo Enfoque):** En lugar de un informe financiero automático, se implementa una carpeta digital mensual.
         *   **Funcionalidad:** La emprendedora sube boletas/facturas organizadas por mes.
-        *   **Gestión:** El equipo de finanzas tiene un botón de "Descarga Masiva" (Zip mensual) con toda la documentación lista para rendir.
-        *   **Recordatorios:** El sistema notifica automáticamente si falta subir documentos al cierre de mes.
+        *   **Gestión:** El equipo de finanzas tiene un botón de "Descarga Masiva" (Zip mensual o por periodo) con toda la documentación por empresa.
+        *   **Recordatorios:** El sistema permite notificar automáticamente si falta subir documentos al cierre de mes (la empresa patrocinante puede solicitar el documento vía la plataforma).
 
 ```mermaid
 graph TD
