@@ -4,44 +4,40 @@ Este documento detalla la arquitectura, flujos de datos y lógica de negocio par
 
 ---
 
-## 1. Núcleo del Sistema: Motor de Formularios Dinámicos
+## 1. Lógica Central: Formularios Dinámicos
 
-La arquitectura no es estática. El modelo de datos debe adaptarse dinámicamente según el instrumento (fondo/concurso) configurado por el Patrocinante.
+La plataforma no tiene una estructura fija; se adapta al tipo de fondo o concurso (**Instrumento CORFO**) al que la empresa postula.
 
-### Lógica de Negocio
-1.  **Configuración (Patrocinante):** Define el esquema de preguntas y requisitos (Schema Definition).
-2.  **Input Mejorado (Empresa + IA):**
-    *   La empresa responde preguntas base.
-    *   **LLM Middleware:** Refina la redacción y claridad.
-    *   **Deep Research Agent:** Busca automáticamente datos faltantes (e.g., TAM/SAM/SOM) para enriquecer la postulación.
-3.  **Bifurcación por Etapa (Conditional Logic):**
-    *   **Seed/Pre-seed:** Se desactivan validaciones estrictas de ventas/flujo de caja.
-    *   **Escalamiento/I+D:** Se fuerzan los módulos de tracción comercial y financiera.
+*   **Configuración del Patrocinante:** Las aceleradoras o VCs suben sus propias preguntas de postulación.
+*   **Mejora con IA (Inputs):** Cuando la empresa responde, el sistema usa un modelo de lenguaje (LLM) para mejorar la redacción y realiza una "investigación profunda" (**Deep Research**) automática para completar datos faltantes, como el tamaño del mercado (TAM/SAM/SOM).
+*   **Dependencia de la Etapa:**
+    *   **Empresas Semilla/Pre-seed:** El sistema no exige datos de ventas o flujos de caja, ya que están en etapa de idea o concepto.
+    *   **Empresas de Escalamiento o I+D:** El sistema activa obligatoriamente los módulos financieros y de tracción comercial avanzada.
 
 ### Diagrama de Flujo: Procesamiento de Formularios
 
 ```mermaid
 graph TD
     subgraph "Configuración"
-        A[Patrocinante] -->|Define Schema| B(Formulario Base)
+        A["Patrocinante"] -->|Define Schema| B("Formulario Base")
     end
 
     subgraph "Postulación Empresa"
-        C[Empresa] -->|Inputs Parciales| D(Motor de Formularios)
-        D -->|Trigger| E[Agente IA]
+        C["Empresa"] -->|Inputs Parciales| D("Motor de Formularios")
+        D -->|Trigger| E["Agente IA"]
     end
 
     subgraph "Enriquecimiento IA"
-        E -->|Mejora Redacción| F[LLM Rewriting]
-        E -->|Deep Research| G[Investigación Mercado TAM/SAM]
-        F & G --> H(Datos Enriquecidos)
+        E -->|Mejora Redacción| F["LLM Rewriting"]
+        E -->|Deep Research| G["Investigación Mercado TAM/SAM"]
+        F & G --> H("Datos Enriquecidos")
     end
 
     subgraph "Validación por Etapa"
         H --> I{¿Etapa Empresa?}
-        I -->|Seed / Pre-seed| J[Omitir Datos Financieros Duros]
-        I -->|Escalamiento / I+D| K[Exigir Métricas de Tracción]
-        J & K --> L[Perfil Postulación Completado]
+        I -->|Seed / Pre-seed| J["Omitir Datos Financieros Duros"]
+        I -->|Escalamiento / I+D| K["Exigir Métricas de Tracción"]
+        J & K --> L["Perfil Postulación Completado"]
     end
 ```
 
@@ -83,24 +79,20 @@ sequenceDiagram
 
 Monitorización pasiva y automática. Privacidad y seguridad son críticas aquí.
 
-### Integraciones
-*   **SII scraping/API:** Para Formulario F29 (IVA/Ventas).
-*   **API Bancaria (Ley Fintech):** Lectura de movimientos en cuenta corriente.
-
-### Lógica de Cálculo
-*   **P&L Generator:** Construcción automática de Estado de Resultados.
-*   **Financial Metrics Engine:**
-    *   `Burn Rate` = (Gastos Operativos Promedio).
-    *   `Runway` = (Saldo Caja Actual / Burn Rate).
-    *   **Excepción Seed:** Si `Ventas == 0` o `Etapa == Seed`, forzar indicadores a `0` o `null` (display "No Aplica") para evitar bloqueos.
+*   **Inputs:**
+    *   **SII:** Extracción del formulario **F29** (ventas e impuestos).
+    *   **Banco:** Conexión con la cuenta corriente vía API (Ley Fintech).
+*   **Lógica de Negocio:**
+    *   **Cálculos Automáticos:** El sistema genera el **Estado de Resultados** (P&L) y calcula el **Burn Rate** (gasto mensual) y el **Runway** (tiempo de vida de la caja) usando fórmulas financieras estándar.
+    *   **Nota para Devs:** Si es una empresa "Semilla" sin ventas, estos indicadores deben aparecer en cero o como "No aplica" para no bloquear el perfil.
 
 ### Diagrama de Flujo de Datos Financieros
 
 ```mermaid
 flowchart LR
     subgraph "Fuentes Externas"
-        SII[SII (F29)]
-        Bank[API Banco]
+        SII["SII (F29)"]
+        Bank["API Banco"]
     end
 
     subgraph "Ingesta & Procesamiento"
@@ -125,14 +117,12 @@ flowchart LR
 
 Gestión de la prueba social y resumen ejecutivo validado.
 
-### One-Pager Inteligente
-Documento vivo generado automáticamente cruzando:
-1.  Visión de la empresa (Input manual/IA).
-2.  Datos duros validados (Financiero).
-3.  Capacidades de equipo (Legal).
-
-### Flujo de Reseñas Verificadas (Anti-Fraude)
-El sistema utiliza LinkedIn como proveedor de identidad para validar que quien reseña es una persona real.
+*   **One-Pager Inteligente (Output):** Documento que resume la visión de la empresa, validado con los datos reales del banco/SII y el análisis de equipo hecho por la IA.
+*   **Reseñas de Clientes (Flujo):**
+    1.  La empresa ingresa el correo del cliente.
+    2.  El sistema envía un mail desde **Fintegrity** con una encuesta.
+    3.  El cliente **debe** loguearse con LinkedIn para responder.
+    4.  **Output:** La reseña se publica con el link al perfil real de LinkedIn del cliente para evitar fraudes.
 
 ```mermaid
 sequenceDiagram
@@ -157,19 +147,16 @@ sequenceDiagram
 
 Automatización del reporting ("Pain Killer" para founders). Transforma inputs informales en reportes formales.
 
-### Pipeline de Transformación
-1.  **Input (Bitácora):** Texto libre o bullet points simples (Logros, Bloqueos, Next Steps) cada 15 días.
-2.  **Procesamiento IA:**
-    *   Expansión de texto a prosa formal.
-    *   Cruce con datos financieros del periodo.
-3.  **Outputs:**
-    *   **Informe Técnico:** Formato oficial CORFO/Fondo.
-    *   **Informe Financiero:** Rendición de gastos automatizada (Match movimientos banco vs presupuesto).
+*   **Bitácora Quincenal (Input):** Cada 15 días, la empresa escribe 3 puntos: **Logros**, **Bloqueos** y **Próximos Pasos**.
+*   **Proceso:** Un modelo de IA toma estas notas simples y redacta un informe de progreso formal y detallado.
+*   **Generador de Informes CORFO (Output):**
+    *   **Informe Técnico:** Compila las bitácoras quincenales y las actas de mentores en el formato oficial del fondo correspondiente.
+    *   **Informe Financiero:** Genera la rendición de gastos cruzando los datos bancarios con las metas de la convocatoria.
 
 ```mermaid
 graph TD
-    Input[Bitácora Quincenal Liguera] -->|Texto Raw| IA[Agente Generador de Reportes]
-    BankData[Datos Bancarios] -->|Movimientos Mes| IA
+    Input["Bitácora Quincenal Liguera"] -->|Texto Raw| IA["Agente Generador de Reportes"]
+    BankData["Datos Bancarios"] -->|Movimientos Mes| IA
     
     IA -->|Procesamiento NLP| Draft[Borrador Informe]
     
@@ -219,6 +206,8 @@ erDiagram
     }
 ```
 
+
+---
 
 # SEMILLA INICIA CORFO 2026 POSTULACIÓN (Fase 2):
 
