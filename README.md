@@ -117,7 +117,9 @@ flowchart LR
 
 Gestión de la prueba social y resumen ejecutivo validado.
 
-*   **One-Pager Inteligente (Output):** Documento que resume la visión de la empresa, validado con los datos reales del banco/SII y el análisis de equipo hecho por la IA.
+*   **One-Pager Inteligente (Output):** Documento que resume la visión de la empresa, validado con los datos reales del banco/SII y el análisis de equipo hecho por la IA. (Ver referencia del one pager acá: https://www.angelscapital.es/como-hacer-un-one-pager-te-lo-explicamos-con-un-ejemplo-real/)
+  
+---
 *   **Reseñas de Clientes (Flujo):**
     1.  La empresa ingresa el correo del cliente.
     2.  El sistema envía un mail desde **Fintegrity** con una encuesta.
@@ -138,7 +140,7 @@ sequenceDiagram
     LI-->>Sys: Token / Identidad Validada
     Cli->>Sys: Completa Reseña
     Sys->>Sys: Vincular Reseña a Perfil LinkedIn
-    Sys-->>Emp: Publicar One-Pager con Reseña Verificada
+    Sys-->>Emp: Publicar Reseña con Reseña Verificada
 ```
 
 ---
